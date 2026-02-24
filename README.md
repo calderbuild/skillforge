@@ -4,6 +4,8 @@ Open-source AI skill generator for [OpenClaw](https://openclaw.org). Describe wh
 
 Built for the **SURGE x OpenClaw Hackathon 2026**.
 
+**Live Demo**: [https://skillforge-frontend-gold.vercel.app](https://skillforge-frontend-gold.vercel.app)
+
 ## What It Does
 
 1. **Describe** -- Type a natural language description of the skill you want

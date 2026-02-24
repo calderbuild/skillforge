@@ -10,3 +10,5 @@ frontend/dist/
 dist/
 build/
 .vite/
+*.png
+.vercel/
