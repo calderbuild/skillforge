@@ -156,7 +156,7 @@ function App() {
           <p className="text-xs" style={{ color: 'var(--forge-text-dim)' }}>
             SkillForge is open source (MIT).{" "}
             <a
-              href="https://github.com/calderbuild/openclaw-surge-hackathon"
+              href="https://github.com/calderbuild/skillforge"
               className="underline underline-offset-2 transition-colors duration-200"
               style={{ color: 'var(--forge-text-muted)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--forge-amber)'}
