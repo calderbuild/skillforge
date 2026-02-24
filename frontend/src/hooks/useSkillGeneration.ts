@@ -103,7 +103,11 @@ export function useSkillGeneration() {
         }
       } catch (err) {
         if (err instanceof DOMException && err.name === "AbortError") return;
-        setError(err instanceof Error ? err.message : "Unknown error");
+        if (err instanceof TypeError && (err.message.includes("fetch") || err.message.includes("network"))) {
+          setError("Cannot reach the backend server. Make sure it is running on " + API_BASE);
+        } else {
+          setError(err instanceof Error ? err.message : "Unknown error");
+        }
       } finally {
         setIsStreaming(false);
       }
