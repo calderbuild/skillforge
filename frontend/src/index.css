@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --forge-bg: #08080a;
+  --forge-surface: #111114;
+  --forge-surface-raised: #1a1a1f;
+  --forge-border: #27272e;
+  --forge-border-warm: #3d2a1a;
+  --forge-amber: #f59e0b;
+  --forge-amber-dim: #b45309;
+  --forge-amber-glow: rgba(245, 158, 11, 0.15);
+  --forge-text: #e7e5e0;
+  --forge-text-muted: #8a8680;
+  --forge-text-dim: #52504c;
+  --noise-opacity: 0.03;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--forge-bg);
+  color: var(--forge-text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--forge-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forge-text-dim);
+}
+
+/* Font classes */
+.font-display {
+  font-family: 'Syne', sans-serif;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Forge glow effect */
+.forge-glow {
+  box-shadow: 0 0 20px var(--forge-amber-glow),
+              0 0 60px rgba(245, 158, 11, 0.05);
+}
+
+.forge-glow-strong {
+  box-shadow: 0 0 30px var(--forge-amber-glow),
+              0 0 80px rgba(245, 158, 11, 0.08),
+              inset 0 1px 0 rgba(245, 158, 11, 0.1);
+}
+
+/* Subtle warm gradient on top */
+.forge-gradient-top {
+  background: linear-gradient(
+    180deg,
+    rgba(245, 158, 11, 0.03) 0%,
+    transparent 40%
+  );
+}
+
+/* Animations */
+@keyframes forge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes forge-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out both;
+}
+
+.animate-forge-pulse {
+  animation: forge-pulse 2s ease-in-out infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--forge-amber) 0%,
+    #fcd34d 25%,
+    var(--forge-amber) 50%,
+    #fcd34d 75%,
+    var(--forge-amber) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: forge-shimmer 3s linear infinite;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Metal panel border effect */
+.metal-panel {
+  border: 1px solid var(--forge-border);
+  background: var(--forge-surface);
+  position: relative;
+}
+
+.metal-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Textarea custom style */
+textarea:focus {
+  border-color: var(--forge-amber-dim) !important;
+  box-shadow: 0 0 0 1px var(--forge-amber-dim),
+              0 0 20px var(--forge-amber-glow) !important;
+}
+
+/* Selection */
+::selection {
+  background: rgba(245, 158, 11, 0.3);
+  color: #fef3c7;
+}
