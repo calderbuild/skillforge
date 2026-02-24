@@ -1,0 +1,6 @@
+id: code-reviewer
+name: Code Reviewer
+category: Development
+description: Review code changes, find bugs and suggest improvements
+icon: search
+prompt: Create a skill that reviews my code changes, identifies potential bugs, suggests improvements, and checks for best practices

@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+frontend/dist/
+.DS_Store
+.playwright-mcp/
+*.egg-info/
+dist/
+build/
+.vite/

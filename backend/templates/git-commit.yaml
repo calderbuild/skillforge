@@ -1,0 +1,6 @@
+id: git-commit
+name: Git Commit Helper
+category: Development
+description: Analyze staged changes and generate conventional commit messages
+icon: pencil
+prompt: Create a skill that analyzes my staged git changes and generates a conventional commit message with type, scope, and description

@@ -1,0 +1,6 @@
+id: email-digest
+name: Email Digest
+category: Productivity
+description: Summarize daily emails, group by sender and highlight action items
+icon: "\u2709\uFE0F"
+prompt: Create a skill that summarizes my emails every morning, grouping by sender and highlighting action items
