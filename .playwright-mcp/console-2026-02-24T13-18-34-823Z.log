@@ -1,0 +1,8 @@
+[    2907ms] [WARNING] [PostHog.js] You have already initialized PostHog! Re-initializing is a no-op @ https://lablab.ai/_next/static/chunks/9da6db1e-168e03ecc535d528.js:0
+[    4817ms] [ERROR] Attestation check for Attribution Reporting on https://www.facebook.com failed. @ https://lablab.ai/ai-hackathons:0
+[   29955ms] [ERROR] Attestation check for Attribution Reporting on https://www.facebook.com failed. @ https://lablab.ai/ai-hackathons:0
+[  121594ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon?_rsc=10gu8:0
+[  121977ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon:0
+[  122020ms] [WARNING] [PostHog.js] You have already initialized PostHog! Re-initializing is a no-op @ https://lablab.ai/_next/static/chunks/9da6db1e-168e03ecc535d528.js:0
+[  123644ms] [ERROR] Attestation check for Attribution Reporting on https://www.facebook.com failed. @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon:0
+[  128681ms] [WARNING] The resource https://lablab.ai/_next/static/css/c49ea44ddcb26f2f.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon:0

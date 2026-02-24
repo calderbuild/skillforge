@@ -1,0 +1,3 @@
+[     879ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon:0
+[     909ms] [WARNING] [PostHog.js] You have already initialized PostHog! Re-initializing is a no-op @ https://lablab.ai/_next/static/chunks/9da6db1e-168e03ecc535d528.js:0
+[    2191ms] [ERROR] Attestation check for Attribution Reporting on https://www.facebook.com failed. @ https://lablab.ai/ai-hackathons/openclaw-surge-hackathon:0
