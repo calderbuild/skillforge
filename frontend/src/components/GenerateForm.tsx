@@ -9,7 +9,16 @@ interface Template {
   prompt: string;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+function normalizeApiBase(value: string | undefined): string {
+  if (!value) return "";
+  const trimmed = value.trim();
+  if (trimmed.length >= 2 && trimmed[0] === trimmed[trimmed.length - 1] && (`"'`.includes(trimmed[0]))) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE) || "http://127.0.0.1:8000";
 
 interface Props {
   onGenerate: (description: string, templateId?: string) => void;

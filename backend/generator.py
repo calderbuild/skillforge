@@ -1,17 +1,37 @@
 import json
 import os
-from typing import Optional
-
-from openai import AsyncOpenAI
+from typing import Optional, Tuple
 
 from prompts import SYSTEM_PROMPT, FEW_SHOT_EXAMPLE
 from scanner import validate_skill_md, scan_skill_md
 
-_api_key = os.environ.get("LLM_API_KEY", "")
-_base_url = os.environ.get("LLM_BASE_URL", "https://newapi.deepwisdom.ai/v1")
-_model = os.environ.get("LLM_MODEL", "deepseek-chat")
 
-_client = AsyncOpenAI(api_key=_api_key, base_url=_base_url)
+def _clean_env(value: str) -> str:
+    """Normalize env values that may include wrapping quotes/newlines."""
+    cleaned = value.strip()
+    if len(cleaned) >= 2 and cleaned[0] == cleaned[-1] and cleaned[0] in {"'", '"'}:
+        cleaned = cleaned[1:-1].strip()
+    return cleaned
+
+
+def _get_llm_config() -> Tuple[str, str, str]:
+    api_key = _clean_env(os.environ.get("LLM_API_KEY") or os.environ.get("OPENAI_API_KEY", ""))
+    base_url = _clean_env(os.environ.get("LLM_BASE_URL", "https://newapi.deepwisdom.ai/v1"))
+    model = _clean_env(os.environ.get("LLM_MODEL", "deepseek-chat"))
+    return api_key, base_url, model
+
+
+def _get_client():
+    api_key, base_url, _ = _get_llm_config()
+    if not api_key:
+        raise RuntimeError("Missing LLM_API_KEY (or OPENAI_API_KEY) in environment")
+
+    try:
+        from openai import AsyncOpenAI
+    except Exception as exc:
+        raise RuntimeError(f"Failed to import openai dependency: {exc}") from exc
+
+    return AsyncOpenAI(api_key=api_key, base_url=base_url)
 
 
 async def generate_skill_stream(description: str, template_id: Optional[str] = None):
@@ -27,6 +47,13 @@ async def generate_skill_stream(description: str, template_id: Optional[str] = N
       data: {"type": "done", "skill_md": "..."}
     """
     yield _sse({"type": "phase", "phase": "generating"})
+    _, _, model = _get_llm_config()
+
+    try:
+        client = _get_client()
+    except Exception as e:
+        yield _sse({"type": "error", "content": f"Backend config error: {str(e)}"})
+        return
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
@@ -40,8 +67,8 @@ async def generate_skill_stream(description: str, template_id: Optional[str] = N
 
     accumulated = []
     try:
-        stream = await _client.chat.completions.create(
-            model=_model,
+        stream = await client.chat.completions.create(
+            model=model,
             max_tokens=4096,
             messages=messages,
             stream=True,
@@ -66,7 +93,7 @@ async def generate_skill_stream(description: str, template_id: Optional[str] = N
     if not valid:
         # Retry once with fix prompt
         yield _sse({"type": "validation", "valid": False, "error": error, "retrying": True})
-        retry_result = await _retry_fix(full_skill_md, error)
+        retry_result = await _retry_fix(client, model, full_skill_md, error)
         if retry_result:
             full_skill_md = retry_result
             valid, error = validate_skill_md(full_skill_md)
@@ -85,11 +112,11 @@ async def generate_skill_stream(description: str, template_id: Optional[str] = N
     yield _sse({"type": "done", "skill_md": full_skill_md})
 
 
-async def _retry_fix(skill_md: str, error: str) -> Optional[str]:
+async def _retry_fix(client, model: str, skill_md: str, error: str) -> Optional[str]:
     """Ask LLM to fix invalid YAML. Returns corrected content or None."""
     try:
-        response = await _client.chat.completions.create(
-            model=_model,
+        response = await client.chat.completions.create(
+            model=model,
             max_tokens=4096,
             messages=[
                 {"role": "system", "content": "Fix the YAML frontmatter in this SKILL.md. Output ONLY the corrected SKILL.md. No explanations."},
